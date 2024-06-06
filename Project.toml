@@ -1,0 +1,13 @@
+name = "JuliaNR"
+uuid = "e7720f00-4cf5-498c-bc3d-086fcfc8b56d"
+authors = ["Kaze Wong <kazewong.physics@gmail.com> and contributors"]
+version = "0.0.1-DEV"
+
+[compat]
+julia = "1.10"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]

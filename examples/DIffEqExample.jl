@@ -1,7 +1,7 @@
 using DifferentialEquations, CUDA
 
 const N = 1000
-const c = 1.0
+const c = 100.0
 const u0 = zeros(Float32, N)
 u0[1] = 1.0
 u0[N] = 1.0
@@ -17,7 +17,7 @@ function wave_equation(du, u, p, t)
     end
 end
 
-tspan = (0.0f0, 1.0f0)
+tspan = (0.0f0, 10.0f0)
 prob = ODEProblem(wave_equation, u0, tspan, p)
 sol = solve(prob, Tsit5(), saveat=0.01f0)
 

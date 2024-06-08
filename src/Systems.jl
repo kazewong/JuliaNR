@@ -51,4 +51,4 @@ discretization = MOLFiniteDifference([x => dx], t, approx_order = order,
                                      grid_align = center_align)
 
 prob = discretize(pde_system, discretization)
-sol = solve(prob, TRBDF2(), saveat = 0.1)
+sol = solve(prob, TRBDF2(), saveat = 0.1, progress=true)

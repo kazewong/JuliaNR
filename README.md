@@ -13,4 +13,6 @@ This is an experimental package aimed at building a numerical relativity (NR) si
 
 ## Status of library
 
-1. `MethodOfLines.jl` doesn't sound it will work with GPU according to this thread https://discourse.julialang.org/t/cuda-gpu-compatible-discretization-from-methodoflines-jl/106506
+`MethodOfLines.jl` doesn't sound it will work with GPU according to this thread https://discourse.julialang.org/t/cuda-gpu-compatible-discretization-from-methodoflines-jl/106506
+
+Resizing of ode systems can be done through resize? https://docs.sciml.ai/DiffEqDocs/stable/features/callback_functions/

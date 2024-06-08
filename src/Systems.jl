@@ -39,7 +39,7 @@ t_max = 10.0
 domains = [x ∈ Interval(x_min, x_max),
             t ∈ Interval(t_min, t_max)]
 
-@named pde_system = PDESystem(eq,bcs,domains,[t,x],[u(x,y)])
+@named pde_system = PDESystem(eq,bcs,domains,[t,x],[u(x)])
 
 N = 32
 

@@ -1,14 +1,14 @@
-using ModelingToolkit, CUDA, DomainSets
+using ModelingToolkit, DomainSets, MethodOfLines
 
-@parameters x::CuArray t::CuArray
+@parameters t x
 @variables u(..)
 Dxx = Differential(x)^2
 Dtt = Differential(t)^2
 Dt = Differential(t)
 
 #2D PDE
-C=cu[1.0]
-eq  = Dtt(u(t,x)) ~ C.^2*Dxx(u(t,x))
+C=1.0
+eq = Dtt(u(t,x)) ~ C.^2*Dxx(u(t,x))
 
 # Initial and boundary conditions
 bcs = [u(t,0) ~ 0.,# for all t > 0

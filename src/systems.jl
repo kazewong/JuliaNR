@@ -3,6 +3,7 @@ using MethodOfLines
 using StaticArrays
 using LinearAlgebra
 using DomainSets
+using DifferentialEquations
 
 # struct BSSNSystem{T}
 #     # Scalars
@@ -126,3 +127,4 @@ order = 2
 discretization = MOLFiniteDifference([x => dx], t, approx_order = order, grid_align = center_align)
 
 prob = discretize(bssn_system, discretization)
+sol = solve(prob, TRBDF2(), saveat = 0.1, progress=true)

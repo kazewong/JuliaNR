@@ -15,8 +15,8 @@ struct BSSNVariables{T}
     Γ_tilt::SVector{3, T}
 
     # Symmetric rank-2 tensor
-    γ_tilt::Symmetric{SMatrix{3, 3, T}}
-    Aij_tilt::Symmetric{SMatrix{3, 3, T}}
+    γ_tilt::SMatrix{3, 3, T}
+    Aij_tilt::SMatrix{3, 3, T}
 end
 
 mutable struct BSSNSystem{T}
@@ -25,11 +25,11 @@ mutable struct BSSNSystem{T}
     t::Real
 
     # System variables
-    u::SArray{BSSNVariables{T}, 3}
+    u::Array{BSSNVariables{T}, 3}
 
     # Derivatives
-    ∂u::SArray{BSSNVariables{T}, 4}
-    ∂2u::SArray{BSSNVariables{T}, 5}
+    ∂u::Array{BSSNVariables{T}, 4}
+    ∂2u::Array{BSSNVariables{T}, 5}
 
     function BSSNSystem(u0)
         self = new()
@@ -40,20 +40,23 @@ function populate_derivative!(∂u, ∂2u, u)
     # Populate the derivatives
 end
 
-function update_system!(u, f, Δt)
-    # Update the system
-end
+function update_rhs!(update::Array{BSSNVariables, 3}, system::BSSNSystem, p, t)
+    for x₁ in 1:size(update, 1)
+        for x₂ in 1:size(update, 2)
+            for x₃ in 1:size(update, 3)
+                update[x₁, x₂, x₃].ϕ = sum(map(i -> system.u.β[i]*system.∂u[x₁, x₂, x₃, i].ϕ, 1:3)) + sum(map(i -> system.∂u[x₁, x₂, x₃, i].β[i], 1:3))
+                
 
-function update_rhs!(du, u, p, t)
+                for i in 1:3
+                    for j in i:3
+                        update[x₁, x₂, x₃].γ_tilt[i, j] = - 2 * α * system.u.Aij_tilt[i, j] 
+            end
+        end
+    end
 end
 
 function (f::BSSNSystem)(du, u, p, t)
     Δt = t - f.t
-
-    if Δt != 0 || t == 0
-        update_system!(u, f, Δt)
-        f.t = t
-    end
 
     # Populate the derivatives
     populate_derivative!(f.∂u, f.∂2u, u)

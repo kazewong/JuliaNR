@@ -28,22 +28,34 @@ mutable struct BSSNSystem{T}
     u::Array{BSSNVariables{T}, 3}
 
     # Derivatives
-    du::Array{BSSNVariables{T}, 4}
-    d2u::Array{BSSNVariables{T}, 5}
+    ∂u::Array{BSSNVariables{T}, 4}
+    ∂2u::Array{BSSNVariables{T}, 5}
 
     function BSSNSystem(u0)
         self = new()
     end
 end
 
+function populate_derivative!(∂u, ∂2u, u)
+    # Populate the derivatives
+end
+
+function update_rhs!(du, u, p, t)
+end
+
 function (f::BSSNSystem)(du, u, p, t)
     Δt = t - f.t
 
     if Δt != 0 || t == 0
-        update_gates_cpu(u, f.XI, f.M, f.H, f.J, f.D, f.F, f.C, Δt)
+        update_system_cpu(u, f, Δt)
         f.t = t
     end
 
     # Populate the derivatives
+    populate_derivative!(f.∂u, f.∂2u, u)
+
+    # Output update
+
+    update_rhs!(du, u, p, t)
 
 end

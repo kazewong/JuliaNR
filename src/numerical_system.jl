@@ -40,6 +40,10 @@ function populate_derivative!(∂u, ∂2u, u)
     # Populate the derivatives
 end
 
+function update_system!(u, f, Δt)
+    # Update the system
+end
+
 function update_rhs!(du, u, p, t)
 end
 
@@ -47,7 +51,7 @@ function (f::BSSNSystem)(du, u, p, t)
     Δt = t - f.t
 
     if Δt != 0 || t == 0
-        update_system_cpu(u, f, Δt)
+        update_system!(u, f, Δt)
         f.t = t
     end
 

@@ -25,11 +25,11 @@ mutable struct BSSNSystem{T}
     t::Real
 
     # System variables
-    u::Array{BSSNVariables{T}, 3}
+    u::SArray{BSSNVariables{T}, 3}
 
     # Derivatives
-    ∂u::Array{BSSNVariables{T}, 4}
-    ∂2u::Array{BSSNVariables{T}, 5}
+    ∂u::SArray{BSSNVariables{T}, 4}
+    ∂2u::SArray{BSSNVariables{T}, 5}
 
     function BSSNSystem(u0)
         self = new()

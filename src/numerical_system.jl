@@ -21,6 +21,9 @@ end
 
 mutable struct BSSNSystem{T}
 
+    # Parameters
+    t::Real
+
     # System variables
     u::Array{BSSNVariables{T}, 3}
 
@@ -33,5 +36,14 @@ mutable struct BSSNSystem{T}
     end
 end
 
-function vaccum_GR_rhs!(du, u, p, t)
+function (f::BSSNSystem)(du, u, p, t)
+    Δt = t - f.t
+
+    if Δt != 0 || t == 0
+        update_gates_cpu(u, f.XI, f.M, f.H, f.J, f.D, f.F, f.C, Δt)
+        f.t = t
+    end
+
+    # Populate the derivatives
+
 end

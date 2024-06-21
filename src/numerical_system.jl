@@ -49,7 +49,7 @@ function update_rhs!(update::Array{BSSNVariables, 3}, system::BSSNSystem, p, t)
 
                 for i in 1:3
                     for j in i:3
-                        update[x₁, x₂, x₃].γ_tilt[i, j] = - 2 * α * system.u.Aij_tilt[i, j] 
+                        update[x₁, x₂, x₃].γ_tilt[i, j] = - 2 * α * system.u.Aij_tilt[i, j] + system.u.β
             end
         end
     end

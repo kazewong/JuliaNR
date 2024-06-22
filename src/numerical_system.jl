@@ -71,6 +71,9 @@ function update_rhs!(update::Array{BSSNVariables, 3}, system::BSSNSystem, p, t)
                 K_rhs!(update[x₁, x₂, x₃], u, ∂u, ∂2u, γ_inv)
 
                 for i in 1:3
+                    
+                    update[x₁, x₂, x₃].β[i] = u.B[i]
+
                     for j in i:3
                         γ_tilt_rhs!(update[x₁, x₂, x₃].γ_tilt, u, ∂u, i, j)
             end

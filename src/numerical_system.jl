@@ -52,6 +52,10 @@ function K_rhs!(update::Array{BSSNVariables, 3}, u::BSSNVariables, ∂u::BSSNVar
     update.K =  u.α * (sum([γ_inv[i, k] * γ_inv[j, l] * u.Aij_tilt[k, l] * u.Aij_tilt[i, j] for i in 1:3 for j in 1:3 for k in 1:3 for l in 1:3]) + u.K^2/3) + sum([u.β[i]*∂u.K[i] for i in 1:3]) - sum([γ_inv[i][j]*(∂2u.α[i][j] - sum([christoffel_symbol(γ_inv, ∂u.γ, k, i, j)*∂u.α[k] for k in 1:3])) for i in 1:3 for j in 1:3])
 end
 
+function γ_tilt_rhs!(update::Array{BSSNVariables, 3}, u::BSSNVariables, ∂u::BSSNVariables, i, j)
+    update.γ_tilt[i, j] = - 2 * u.α * u.Aij_tilt[i, j] + sum([u.β[k]*∂u.gamma[i, j, k] + u.gamma[i, k]*∂u.β[k, j] + u.gamma[j, k]*∂u.β[k, i] - 2.0/3.0 * u.gamma[i, j] * ∂u.β[k, k] for k in 1:3])
+end
+
 function update_rhs!(update::Array{BSSNVariables, 3}, system::BSSNSystem, p, t)
     for x₁ in 1:size(update, 1)
         for x₂ in 1:size(update, 2)
@@ -68,7 +72,7 @@ function update_rhs!(update::Array{BSSNVariables, 3}, system::BSSNSystem, p, t)
 
                 for i in 1:3
                     for j in i:3
-                        update[x₁, x₂, x₃].γ_tilt[i, j] = - 2 * α * system.u.Aij_tilt[i, j] + system.u.β
+                        γ_tilt_rhs!(update[x₁, x₂, x₃].γ_tilt, u, ∂u, i, j)
             end
         end
     end

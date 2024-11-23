@@ -3,6 +3,9 @@
 [![Doc](https://img.shields.io/badge/docs-main-blue.svg)](https://kazewong.github.io/JuliaNR.jl/)
 This is an experimental package aimed at building a numerical relativity (NR) simulation toolkit in Julia.
 
+> [!NOTE]
+> After some experimentation, I decided Julia is not a good fit for the task and switch back to Jax to do it for real this time. This repository will be archived.
+
 ## Solver roadmap
 
 There are a number of possible PDE solvers we can use in this project, which all have different trade-offs, the goal of this project (at least at this early stage) is to explore all the options and understand their limitations. The few options are:
